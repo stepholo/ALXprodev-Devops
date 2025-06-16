@@ -1,0 +1,20 @@
+#!/bin/bash
+# This script is used to for automating API request and handling responses.
+# Usage: ./apiAutomation-0x00
+
+url="https://pokeapi.co/api/v2/pokemon/pikachu"
+file_path="data.json"
+error_file="error.txt"
+
+# Function to make a GET request
+function make_get_request() {
+    response=$(curl -s -w "%{http_code}" "$url" -o $file_path)
+    if [ $response -ne 200 ]; then
+        echo "Error: Failed to fetch data for Pikachu. HTTP Status code: $response" >> "$error_file"
+        exit 1
+    fi
+    echo $response >> "$file_path"
+    echo "GET request successful, response saved to $file_path"
+}
+
+make_get_request

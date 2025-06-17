@@ -13,7 +13,7 @@ fi
 # Extract values using jq
 name=$(jq -r '.name' "$file_path")
 height=$(jq -r '.height' "$file_path")
-weight=$(jq -r '.wwight' "$file_path")
+weight=$(jq -r '.weight' "$file_path")
 type=$(jq -r '.types[0].type.name' "$file_path")
 
 # Convert height and weight to meters and kilograms
@@ -25,4 +25,4 @@ name_cap=$(echo "$name" | sed 's/.*/\u&/')
 type_cap=$(echo "$type" | sed 's/.*/\u&/')
 
 # Print the formatted output
-echo "$name_cap is of type $type_cap, weighs ${weight_kg}kg, and is ${height_m}m tall."
+echo ""$name_cap is of type $type_cap, weighs ${weight_kg}kg, and is ${height_m}m tall.""

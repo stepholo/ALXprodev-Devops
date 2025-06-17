@@ -1,0 +1,38 @@
+#!/bin/bash
+# This script is used to automate batch processing of multiple API requests.
+# Usage: ./batchProcessing-0x02
+
+# List of Pokémon names to process
+pokemon_list=("bulbasaur" "ivysaur" "venusaur" "charmander" "charmeleon")
+
+# API base URL
+base_url="https://pokeapi.co/api/v2/pokemon/"
+
+# Delay in seconds between requests
+delay_seconds=3
+
+# Loop through each Pokémon name
+for pokemon in "${pokemon_list[@]}"; do
+    output_file="${pokemon}.json"
+    error_file="errors.txt"
+
+    echo "Fetching data for $pokemon..."
+
+    # Get API response and HTTP status code
+    status_code=$(curl -s -w "%{http_code}" -o temp.json "$base_url/$pokemon")
+
+    # Check if the request was successful
+    if [ "$status_code" -eq 200 ]; then
+        mv temp.json "$output_file"
+        echo "Saved data to pokemon_data/$pokemon.json ✅"
+    else
+        echo "Error: Failed to fetch data for $pokemon. HTTP Status code: $status_code" >> "$error_file"
+        rm -f temp.json
+    fi
+
+    # Delay before the next request
+    sleep "$delay_seconds"
+done
+
+echo "Batch processing completed. Check individual files for results."
+# End of script

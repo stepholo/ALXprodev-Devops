@@ -25,4 +25,4 @@ name_cap=$(echo "$name" | sed 's/.*/\u&/')
 type_cap=$(echo "$type" | sed 's/.*/\u&/')
 
 # Print the formatted output
-echo ""$name_cap is of type $type_cap, weighs ${weight_kg}kg, and is ${height_m}m tall.""
+echo "\"$name_cap is of type $type_cap, weighs ${weight_kg}kg, and is ${height_m}m tall.\""

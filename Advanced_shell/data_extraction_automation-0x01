@@ -1,0 +1,28 @@
+#!/bin/bash
+# This script extracts and formats specific Pokeman details from data.json.
+# Usage: ./data_extraction_automation-0x01
+
+file_path="data.json"
+
+# Check if the file exists
+if [ ! -f "$file_path" ]; then
+    echo "Error: $file_path does not exist."
+    exit 1
+fi
+
+# Extract values using jq
+name=$(jq -r '.name' "$file_path")
+height=$(jq -r '.height' "$file_path")
+weight=$(jq -r '.wwight' "$file_path")
+type=$(jq -r '.types[0].type.name' "$file_path")
+
+# Convert height and weight to meters and kilograms
+height_m=$(echo "$height" | awk '{printf "%.1f", $1 / 10}')
+weight_kg=$(echo "$weight" | awk '{printf "%.0f", $1 / 10}')
+
+# Capitalise the name and type (optional with sed)
+name_cap=$(echo "$name" | sed 's/.*/\u&/')
+type_cap=$(echo "$type" | sed 's/.*/\u&/')
+
+# Print the formatted output
+echo "$name_cap is of type $type_cap, weighs ${weight_kg}kg, and is ${height_m}m tall."
